@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Trainer & Supporter Gallery</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      background: #fafafa;
+    }
+    .card img {
+      max-width: 100%;
+      border-radius: 6px;
+    }
+    .name {
+      margin-top: 8px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .lightbox-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90vw;
+      max-height: 90vh;
+      text-align: center;
+    }
+    .lightbox-content img {
+      max-width: 100%;
+      max-height: 70vh;
+    }
+    .close {
+      margin-top: 10px;
+      display: inline-block;
+      padding: 6px 12px;
+      background: #333;
+      color: white;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Trainer & Supporter Cards</h1>
+<p>Click any card to view the full image inline (no new tab).</p>
+
+<div class="grid" id="cardGrid"></div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <div class="lightbox-content" onclick="event.stopPropagation()">
+    <h2 id="lightboxName"></h2>
+    <img id="lightboxImg" src="" alt="" />
+    <div class="close" onclick="closeLightbox()">Close</div>
+  </div>
+</div>
+
+<script>
+  // Example data – extend this list with the rest of your Trainers/Supporters
+  const cards = [
+    {
+      name: "Canari",
+      image: "https://images.pokemontcg.io/sv/en/Canari.png"
+    },
+    {
+      name: "Candela",
+      image: "https://images.pokemontcg.io/pg/en/Candela.png"
+    },
+    {
+      name: "Cynthia",
+      image: "https://images.pokemontcg.io/sm/en/Cynthia.png"
+    },
+    {
+      name: "Professor Oak's Research",
+      image: "https://images.pokemontcg.io/swsh/en/ProfessorOaksResearch.png"
+    }
+  ];
+
+  const grid = document.getElementById('cardGrid');
+
+  cards.forEach(card => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <img src="${card.image}" alt="${card.name}" />
+      <div class="name">${card.name}</div>
+    `;
+    div.onclick = () => openLightbox(card);
+    grid.appendChild(div);
+  });
+
+  function openLightbox(card) {
+    document.getElementById('lightboxName').textContent = card.name;
+    document.getElementById('lightboxImg').src = card.image;
+    document.getElementById('lightbox').style.display = 'flex';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
